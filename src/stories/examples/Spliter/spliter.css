@@ -1,0 +1,9 @@
+.spliter-main {
+    height: calc(100vh - var(--xl));
+    padding: var(--xl);
+}
+
+.spliter-child{
+    border-radius: var(--xl);
+    padding: var(--xl);
+}

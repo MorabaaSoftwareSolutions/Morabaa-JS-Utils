@@ -1,5 +1,6 @@
 import React from 'react'
-import { Utils } from '../utils'
+import './spliter.css'
+import { Utils } from '../../utils'
 
 const Spliter = ({
   vertical,

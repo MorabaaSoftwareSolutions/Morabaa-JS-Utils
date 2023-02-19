@@ -1,7 +1,7 @@
-const StoryModle = (Component, title) => {
+const StoryModle = (Component, title = Component.displayName) => {
   return {
     story: {
-      title: `Examples/${title || Component.displayName}`,
+      title: `Examples/${title}`,
       component: Component,
       parameters: { layout: 'fullscreen' }
     },

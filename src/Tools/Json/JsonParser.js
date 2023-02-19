@@ -1,4 +1,4 @@
-import { Div, Fragment, Img, Span } from './Tools'
+import { Div, Fragment, Img, Span } from '../Tools'
 
 const Function = ({ item }) =>
   Span({

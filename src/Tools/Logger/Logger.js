@@ -1,14 +1,18 @@
-import JsonParser from './JsonParser'
-import { Div, Span } from './Tools'
-
+import { JsonParser } from '../Json'
+import { Div, Span } from '../Tools'
 let containerEl = false
 const showOnLog = true
 const popup = true
-const Logger = (json, prop) => {
-  if (!containerEl) createContainerEl()
-  if (prop?.clear) {
-    containerEl.clear()
-  }
+
+const Logger = ({
+  json,
+  clear = false,
+  type = 'info',
+  parent = document.body
+}) => {
+  if (!containerEl) createContainerEl(parent)
+  if (clear) containerEl.clear()
+
   if (containerEl.getAttribute('is') === 'colabs') {
     containerEl.count++
     containerEl.setAttribute(
@@ -23,20 +27,22 @@ const Logger = (json, prop) => {
   if (typeof json !== 'object')
     json = { [containerEl.childElementCount - 1]: json }
   console.log(json)
-  let jsonEl = JsonParser(json)
-  if (prop?.type) {
-    jsonEl.setAttribute('type', prop.type)
+  let jsonEl = Div({ className: 'relative before' }, [JsonParser(json)])
+
+  if (type) {
+    jsonEl.firstChild.setAttribute('type', type)
     containerEl.show()
   } else if (showOnLog) containerEl.show()
 
-  containerEl.insertBefore(jsonEl, containerEl.firstChild)
+  containerEl.add(jsonEl)
   containerEl.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
   // if (timer) setTimeout(() => containerEl?.remove(), timer);
 }
 
 export default Logger
 
-function createContainerEl() {
+function createContainerEl(parent) {
+  const logConainer = Div({ className: 'logger-child' })
   containerEl = Div(
     { id: 'logger-container', className: 'logger-container scroller' },
     [
@@ -51,9 +57,15 @@ function createContainerEl() {
             containerEl.clear()
           }, 200)
         }
-      })
+      }),
+      logConainer
     ]
   )
+
+  containerEl.add = (jsonEl) => {
+    jsonEl.setAttribute('area-label', `${logConainer.childElementCount}`)
+    logConainer.prepend(jsonEl)
+  }
   containerEl.count = 0
   containerEl.setAttribute('is', 'colabs')
 
@@ -88,6 +100,7 @@ function createContainerEl() {
     containerEl.style.top = `${moved[1] + y}px`
   }
 
+  const animationDuration = 500
   containerEl.onmousedown = ({ target, clientX, clientY }) => {
     startX = clientX
     startY = clientY
@@ -97,7 +110,7 @@ function createContainerEl() {
       onMove(x, y)
     }
     const onUpHandler = () => {
-      containerEl.style.transitionDuration = '0.2s'
+      containerEl.style.transitionDuration = animationDuration + 'ms'
       window.removeEventListener('mousemove', onMoveHandler)
       window.removeEventListener('mouseup', onUpHandler)
       if (containerEl.childElementCount === 1) return
@@ -126,7 +139,7 @@ function createContainerEl() {
       } else {
         setTimeout(() => {
           containerEl.classList.add('hide-child')
-        }, 200)
+        }, animationDuration)
       }
     }
     window.addEventListener('mousemove', onMoveHandler)
@@ -143,19 +156,9 @@ function createContainerEl() {
     containerEl.setAttribute('is', overScreen ? 'default' : 'visible')
     setTimeout(() => {
       containerEl.classList.remove('hide-child')
-    }, 200)
+    }, animationDuration)
   }
 
-  document.body.append(containerEl)
+  parent.append(containerEl)
   setTimeout(() => (containerEl.style.opacity = '1'), 10)
 }
-{
-  /* <span */
-}
-// aria-label="sapreator"
-// style={{ borderRadius: "10px", padding: "3px", margin: "auto" }}
-// ref={(ref) => {
-//     if (!ref || ref.childElementCount > 0) return;
-//     new Sapreator({ ref: ref.parentElement, vertical, sapreatorColors, spliter: ref, minBefor, minAfter, initialRatios, storageKey });
-// }}
-// />

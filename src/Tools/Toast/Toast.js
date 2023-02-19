@@ -1,5 +1,5 @@
-import { TimedCallback } from '../utils'
-import { Div, P, Span } from './Tools'
+import { TimedCallback } from '../../utils'
+import { Div, P, Span } from '../Tools'
 
 const Language = {}
 
@@ -102,47 +102,3 @@ Toast.secondary = ({ title, content, timeout }) =>
   Toast({ title, content, timeout, type: 'secondary' })
 
 export default Toast
-
-export const testToast = () => {
-  let toastkey = 0
-  let toastActions = [
-    'default',
-    'info',
-    'success',
-    'warn',
-    'error',
-    'primary',
-    'secondary'
-  ]
-
-  setInterval(() => {
-    toastkey = (toastkey + 1) % toastActions.length
-    Toast[toastActions[toastkey]]({
-      title: 'مرحبا',
-      content: 'اهلا بك اخي العميل' + toastkey,
-      timeout: 6_000
-    })
-  }, 2000)
-
-  const testToastNow = () => {
-    setTimeout(() => {
-      Toast[toastActions[toastkey]]({
-        title: 'مرحبا',
-        content: 'اهلا بك اخي العميل' + toastkey,
-        timeout: 4_000
-      })
-    }, 0)
-    setTimeout(() => {
-      Toast[toastActions[toastkey]]({
-        title: 'م رحبا',
-        content: 'اهلا بك اخي العميل' + toastkey,
-        timeout: 1_000
-      })
-    }, 1000)
-  }
-
-  testToastNow()
-  setInterval(() => {
-    testToastNow()
-  }, 5000)
-}

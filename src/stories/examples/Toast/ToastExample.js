@@ -1,47 +1,35 @@
 import './toast.css'
 import React from 'react'
-import Toast, { testToast } from '../../../Tools/Toast'
+import { Toast, testToast, ToastActions } from '../Lib'
 
 const ToastExample = () => {
   // testToast()
-  // Toast.error({
-  //   title: 'حصل خظاء',
-  //   content: 'الرجاء التاكد من الاتصال بالانترنت'
-  // })
-  // Toast.success({
-  //   title: 'تم بنجاح',
-  //   content: 'تم اضافة المنتج الى السلة'
-  // })
-
-  //
-  Toast.success({
-    title: 'تم بنجاح',
-    content: 'تم اضافة المنتج الى السلة',
-    timeout: 3_000
-  })
-
-  //
-
+  const toastSample = () => {
+    Toast.success({
+      title: 'تم',
+      content: 'تم الارسال بنجاح'
+    })
+  }
   return (
     <div className='toast-main col-center gap-2xl'>
-      <div className='bg-throne'>
-        <h1>Toast</h1>
-      </div>
-      <p
-        className='button'
-        onClick={() => {
-          // Toast.success({
-          //   title: 'تم بنجاح',
-          //   content: 'تم الارسال الى  حيدر'
-          // })
-          Toast.error({
-            title: 'حصل خظاء',
-            content: 'الرجاء المحاولة مرة اخرى'
-          })
-        }}
-      >
-        {'ارسال الى حيدر'}
+      <h1>Toast</h1>
+      <p className='button' onClick={toastSample}>
+        ارسال
       </p>
+
+      <div className='row-center gap-md'>
+        {ToastActions.map(({ action, title, content }, index) => (
+          <p
+            className='button'
+            key={index}
+            onClick={() => {
+              Toast[action]({ title, content, timeout: 3_000 })
+            }}
+          >
+            {action}
+          </p>
+        ))}
+      </div>
     </div>
   )
 }

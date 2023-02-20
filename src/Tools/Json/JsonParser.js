@@ -10,6 +10,8 @@ const Function = ({ item }) =>
   })
 const String = ({ item }) =>
   Span({ className: 'obj-text-1', innerText: `" ${item} "` })
+const Number = ({ item }) =>
+  Span({ className: 'obj-text-1', innerText: `${item}` })
 const Boolean = ({ item }) => Span({ className: 'obj-text-1', innerText: item })
 const StringArray = (item) =>
   Span({ className: 'obj-text-2 px-sm', innerText: `"${item}" , ` })
@@ -133,7 +135,7 @@ export default JsonParser
 const nullables = [undefined, null, '']
 const UiKit = {
   String,
-  Number: String,
+  Number,
   Boolean,
   Object: _Object,
   Array,

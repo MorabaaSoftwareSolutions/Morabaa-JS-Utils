@@ -5,19 +5,18 @@
     z-index: 333;
     box-shadow: 0px 0px 6px rgba(95, 20, 20, 0.16);
     background-color: var(--json-prince);
-    opacity: 0;
     transition: all 250ms cubic-bezier( 0.4, 0, 0.2, 1 );
     border-radius: var(--xl) !important;
     background-size: 50%;
     font-size: var(--font-sm) !important;
     background-repeat: no-repeat;
     background-position: center;
-    /* width: 50vw; */
+    width: 400px;
     height: 50vh;
-    max-width: 85vw;
-    max-height: 85vh;
-    min-width: 15vw;
-    min-height: 15vh;
+    max-width: 95vw;
+    max-height: 95vh;
+    min-width: 100px;
+    min-height: 100px;
     cursor: grab;
     display: flex;
     flex-direction: column;
@@ -41,12 +40,6 @@
     gap: var(--md);
     padding: var(--xl) var(--xl);
     direction: rtl;
-}
-
-@media screen and (min-width: 768px) {
-    .logger-child{
-        max-width: 700px;
-    }   
 }
  
 @keyframes fad-in {

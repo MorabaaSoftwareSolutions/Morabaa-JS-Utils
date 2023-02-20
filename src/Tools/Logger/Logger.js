@@ -1,13 +1,31 @@
+import { Utils } from '../../utils'
 import { JsonParser } from '../Json'
 import { Div, Span } from '../Tools'
-let containerEl = false
+let containerEl
 const showOnLog = false
 const popup = true
 const animationDuration = 250
-let observer
-
-const Logger = ({ json, clear = false, type = '', parent = document.body }) => {
-  if (!containerEl) createContainerEl(parent)
+let observer = {
+  observe: () => {}
+}
+const isMobile = navigator.userAgent.toLowerCase().match(/mobile/i) != null
+// document.body.append(
+//   Span({
+//     className:
+//       'fixed top-0  right-0 z-50 p-2 m-2  bg-prim text-white rounded-lg',
+//     innerText: `isMobile: ${isMobile}`
+//   })
+// )
+const Logger = async ({
+  json,
+  clear = false,
+  type = '',
+  parentId = 'root'
+}) => {
+  if (!containerEl) {
+    await Utils.sleep(100)
+    createContainerEl(parentId)
+  }
   if (clear) containerEl.clear()
 
   if (containerEl.getAttribute('is') === 'colabsed') {
@@ -38,7 +56,8 @@ const Logger = ({ json, clear = false, type = '', parent = document.body }) => {
 
 export default Logger
 
-function createContainerEl(parent) {
+function createContainerEl(parentId) {
+  if (containerEl) return
   const logConainer = Div({ className: 'logger-child scroller' })
   containerEl = Div(
     { id: 'logger-container', className: 'logger-container hide-child' },
@@ -48,9 +67,11 @@ function createContainerEl(parent) {
         innerText: 'clear',
         id: 'clear-btn',
         onclick: (e) => {
+          if (containerEl.getAttribute('is') === 'colabsed') return
           e.stopPropagation()
           containerEl.setAttribute('is', 'colabsed')
           setTimeout(() => {
+            if (containerEl.getAttribute('is') === 'colabsed') return
             containerEl.clear()
           }, animationDuration)
         }
@@ -83,38 +104,76 @@ function createContainerEl(parent) {
     containerEl.style.top = `${moved[1] + y}px`
   }
 
-  containerEl.onmousedown = ({ target, clientX, clientY }) => {
-    containerEl.style.transitionDuration = '0s'
-    startX = clientX
-    startY = clientY
-    const checkOffset = 20
-    const isRight =
-      containerEl.offsetLeft + containerEl.offsetWidth - checkOffset < clientX
-    const isBottom =
-      containerEl.offsetTop + containerEl.offsetHeight - checkOffset < clientY
-    if (isRight && isBottom) return
-    moved = [containerEl.offsetLeft, containerEl.offsetTop]
-    const onMoveHandler = ({ clientX: x, clientY: y }) => {
-      onMove(x, y)
-    }
-    const onUpHandler = () => {
-      containerEl.style.transitionDuration = animationDuration + 'ms'
-      window.removeEventListener('mousemove', onMoveHandler)
-      window.removeEventListener('mouseup', onUpHandler)
-      if (logConainer.childElementCount === 0) return
-      if (
-        Math.abs(moved[0] - containerEl.offsetLeft) > 10 ||
-        Math.abs(moved[1] - containerEl.offsetTop) > 10
-      ) {
-        moved = [containerEl.offsetLeft, containerEl.offsetTop]
-        containerEl.corectPosition()
-        return
+  if (isMobile)
+    containerEl.ontouchstart = ({ target, touches }) => {
+      containerEl.style.transitionDuration = '0s'
+      startX = touches[0].clientX
+      startY = touches[0].clientY
+
+      const checkOffset = 20
+      const isRight =
+        containerEl.offsetLeft + containerEl.offsetWidth - checkOffset < startX
+      const isBottom =
+        containerEl.offsetTop + containerEl.offsetHeight - checkOffset < startY
+      if (isRight && isBottom) return
+
+      moved = [containerEl.offsetLeft, containerEl.offsetTop]
+      const onMoveHandler = ({ touches }) => {
+        onMove(touches[0].clientX, touches[0].clientY)
       }
-      containerEl.toogle()
+      const onUpHandler = () => {
+        containerEl.style.transitionDuration = animationDuration + 'ms'
+        window.removeEventListener('touchmove', onMoveHandler)
+        window.removeEventListener('touchend', onUpHandler)
+        if (logConainer.childElementCount === 0) return
+        if (
+          Math.abs(moved[0] - containerEl.offsetLeft) > 10 ||
+          Math.abs(moved[1] - containerEl.offsetTop) > 10
+        ) {
+          moved = [containerEl.offsetLeft, containerEl.offsetTop]
+          containerEl.corectPosition()
+          return
+        }
+        containerEl.toogle()
+      }
+      window.addEventListener('touchmove', onMoveHandler)
+      window.addEventListener('touchend', onUpHandler)
     }
-    window.addEventListener('mousemove', onMoveHandler)
-    window.addEventListener('mouseup', onUpHandler)
-  }
+  else
+    containerEl.onmousedown = ({ which, clientX, clientY }) => {
+      if (which !== 1) return
+      containerEl.style.transitionDuration = '0s'
+      startX = clientX
+      startY = clientY
+      const checkOffset = 20
+      const isRight =
+        containerEl.offsetLeft + containerEl.offsetWidth - checkOffset < startX
+      const isBottom =
+        containerEl.offsetTop + containerEl.offsetHeight - checkOffset < startY
+      if (isRight && isBottom) return
+      moved = [containerEl.offsetLeft, containerEl.offsetTop]
+      const onMoveHandler = ({ clientX: x, clientY: y }) => {
+        onMove(x, y)
+      }
+      const onUpHandler = () => {
+        containerEl.style.transitionDuration = animationDuration + 'ms'
+        window.removeEventListener('mousemove', onMoveHandler)
+        window.removeEventListener('mouseup', onUpHandler)
+        if (logConainer.childElementCount === 0) return
+        if (
+          Math.abs(moved[0] - containerEl.offsetLeft) > 10 ||
+          Math.abs(moved[1] - containerEl.offsetTop) > 10
+        ) {
+          moved = [containerEl.offsetLeft, containerEl.offsetTop]
+          containerEl.corectPosition()
+          return
+        }
+        containerEl.toogle()
+      }
+      window.addEventListener('mousemove', onMoveHandler)
+      window.addEventListener('mouseup', onUpHandler)
+    }
+
   containerEl.toogle = () => {
     const isColabs = containerEl.getAttribute('is') === 'colabsed'
     if (isColabs) {
@@ -160,7 +219,7 @@ function createContainerEl(parent) {
         window.innerHeight - containerEl.offsetHeight - margin + 'px'
   }
 
-  parent.append(containerEl)
+  document.getElementById(parentId).append(containerEl)
   setTimeout(() => (containerEl.style.opacity = '1'), 10)
   observer = new IntersectionObserver(
     (entries) => {

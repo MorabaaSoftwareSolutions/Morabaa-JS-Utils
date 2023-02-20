@@ -80,7 +80,7 @@
     box-shadow: inset 0px 0px 6px rgba(95, 20, 20, 0.5);
     animation: loop 4s ease-out infinite;
     padding: var(--xs);
-    background-image: url("/public/android-chrome-512x512.png");
+    /* background-image: url("../../../public/android-chrome-512x512.png"); */
     resize: none;
 }
 

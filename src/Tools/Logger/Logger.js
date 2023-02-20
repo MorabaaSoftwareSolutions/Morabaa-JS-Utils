@@ -16,6 +16,7 @@ const isMobile = navigator.userAgent.toLowerCase().match(/mobile/i) != null
 //     innerText: `isMobile: ${isMobile}`
 //   })
 // )
+
 const Logger = async ({
   json,
   clear = false,
@@ -79,6 +80,8 @@ function createContainerEl(parentId) {
       logConainer
     ]
   )
+
+  checkImage()
 
   containerEl.add = (jsonEl) => {
     jsonEl.setAttribute('area-label', `${logConainer.childElementCount}`)
@@ -199,6 +202,9 @@ function createContainerEl(parentId) {
     containerEl.setAttribute('is', overScreen ? 'default' : 'visible')
     containerEl.classList.remove('hide-child')
     containerEl.corectPosition()
+    setTimeout(() => {
+      containerEl.corectPosition()
+    }, animationDuration)
   }
   containerEl.corectPosition = () => {
     const margin = 20
@@ -233,4 +239,31 @@ function createContainerEl(parentId) {
     },
     { threshold: 0, root: logConainer }
   )
+}
+
+const checkImage = (i = 0) => {
+  const posibleImgs = [
+    '../../public/android-chrome-512x512.png',
+    '../../public/logo.png',
+    '../../public/favicon.ico',
+    '../../../public/android-chrome-512x512.png',
+    '../../../public/logo.png',
+    '../../../public/favicon.ico',
+    '../../../../public/android-chrome-512x512.png',
+    '../../../../public/logo.png',
+    '../../../../public/favicon.ico'
+  ]
+
+  try {
+    const img = new Image()
+    img.src = posibleImgs[i]
+    img.onload = () => {
+      containerEl.backgroundImage = `url("${posibleImgs[i]}")`
+    }
+    img.onerror = () => {
+      i++
+      console.log('ERROR')
+      if (i < posibleImgs.length) checkImage(i + 1)
+    }
+  } catch (e) {}
 }

@@ -4,7 +4,7 @@
     content: "Must Be Filled" !important;
   }
   .shake::placeholder {
-    color: var(--dragon) !important;
+    color: var(--json-red) !important;
   }
   @keyframes shakeFrame {
     0%,20%,40%,60%,80% {transform: translateX(0);}
@@ -12,8 +12,7 @@
   }
   
 .spliter{
-    background-color:#56799c;
-    background-color:#88d9e3;
+    background-color: var(--json-cyan);
     opacity: 0.2;
     margin: 3px;
     border-radius: 5px;

@@ -1,0 +1,145 @@
+.logger-container{ 
+    position: fixed;
+    top: 10%;
+    left: 10px;
+    z-index: 333;
+    box-shadow: 0px 0px 6px rgba(95, 20, 20, 0.16);
+    background-color: var(--json-prince);
+    opacity: 0;
+    transition: all 250ms cubic-bezier( 0.4, 0, 0.2, 1 );
+    border-radius: var(--xl) !important;
+    background-size: 50%;
+    font-size: var(--font-sm) !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* width: 50vw; */
+    height: 50vh;
+    max-width: 85vw;
+    max-height: 85vh;
+    min-width: 15vw;
+    min-height: 15vh;
+    cursor: grab;
+    display: flex;
+    flex-direction: column;
+    resize: both;
+    direction: ltr;
+    overflow: hidden;
+}
+.logger-container:active{
+    cursor: grabbing;
+} 
+@keyframes loop {
+    0%,100% { transform: translateY(3px); }
+    50% { transform: translateY(-3px); }
+}
+
+.logger-child{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: var(--md);
+    padding: var(--xl) var(--xl);
+    direction: rtl;
+}
+
+@media screen and (min-width: 768px) {
+    .logger-child{
+        max-width: 700px;
+    }   
+}
+ 
+@keyframes fad-in {
+    0%   { opacity: 0.7; transform: translateX(-100px);}
+    50%   { opacity: 1; transform: translateX(20px);}
+    100% { opacity: 1;   transform: translateX(0)}
+}
+
+
+[is="colabsed"]::before {
+    content: attr(log-count);
+    background-color: var(--json-red);
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    counter-reset: 0;
+    width: 18px !important;
+    height: 18px !important;
+    place-content: center;
+    display: inline-flex;
+    border-radius: 50px;
+    box-shadow:  0px 0px 6px var(--json-light-red);
+    position: absolute;
+    padding: 2px;
+    top: -10px;
+    right: -6px;
+}
+[is="colabsed"][log-count="hide"]::before {
+    display: none !important;
+}
+
+[is="colabsed"]{
+    max-width:  40px !important;
+    max-height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    border-radius: 50px !important;
+    box-shadow: inset 0px 0px 6px rgba(95, 20, 20, 0.5);
+    animation: loop 4s ease-out infinite;
+    padding: var(--xs);
+    background-image: url("/public/android-chrome-512x512.png");
+    resize: none;
+}
+
+.clear-btn {
+    background-color:var(--json-red);
+    color: #ffffff;
+    margin:4px 10px -13px 0;
+    margin-left: auto;
+    border-radius: 20px;
+    padding: 2px 4px;
+    animation: visible 1s ease-out;
+    z-index: 333;
+}
+@keyframes visible {
+    0%,90% { opacity: 0;display: none; }
+    100% { opacity: 1;display: block; }
+    
+}
+[is="colabsed"] .clear-btn {
+    display: none !important;
+}
+
+.hide-child { overflow: visible;}
+.hide-child div{ display: none !important}
+
+
+[is="default"]{
+    top: 10% !important;
+    left: 10px !important;
+}
+
+.log-container{
+    position: relative;
+    animation:fad-in 300ms ease-out;
+    transition: all 200ms cubic-bezier( 0.4, 0, 0.2, 1 );
+    opacity: 1 !important;
+}
+.log-container::before{
+    content: attr(area-label);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 30px 30px 0 30px;
+    /* border-radius: 20px; */
+    left: 0px; 
+    background-color: var(--json-prince);
+    box-shadow: 0px 0px 6px rgba(95, 20, 20, 0.16);
+    position: absolute;
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    z-index: 333;
+}
+.hidden{
+    opacity: 0.4 !important;
+}

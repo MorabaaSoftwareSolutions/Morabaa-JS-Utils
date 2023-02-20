@@ -1,19 +1,16 @@
 import { JsonParser } from '../Json'
 import { Div, Span } from '../Tools'
 let containerEl = false
-const showOnLog = true
+const showOnLog = false
 const popup = true
+const animationDuration = 250
+let observer
 
-const Logger = ({
-  json,
-  clear = false,
-  type = 'info',
-  parent = document.body
-}) => {
+const Logger = ({ json, clear = false, type = '', parent = document.body }) => {
   if (!containerEl) createContainerEl(parent)
   if (clear) containerEl.clear()
 
-  if (containerEl.getAttribute('is') === 'colabs') {
+  if (containerEl.getAttribute('is') === 'colabsed') {
     containerEl.count++
     containerEl.setAttribute(
       'log-count',
@@ -24,14 +21,14 @@ const Logger = ({
     containerEl.setAttribute('log-count', 'hide')
   }
   if (!json) json = `${json}`
-  if (typeof json !== 'object')
-    json = { [containerEl.childElementCount - 1]: json }
+  if (typeof json !== 'object') json = { '.': json }
   console.log(json)
-  let jsonEl = Div({ className: 'relative before' }, [JsonParser(json)])
+  let jsonEl = Div({ className: 'log-container' }, [JsonParser(json)])
+  observer.observe(jsonEl, { childList: true, subtree: true })
 
   if (type) {
     jsonEl.firstChild.setAttribute('type', type)
-    containerEl.show()
+    if (type === 'error') containerEl.show()
   } else if (showOnLog) containerEl.show()
 
   containerEl.add(jsonEl)
@@ -42,9 +39,9 @@ const Logger = ({
 export default Logger
 
 function createContainerEl(parent) {
-  const logConainer = Div({ className: 'logger-child' })
+  const logConainer = Div({ className: 'logger-child scroller' })
   containerEl = Div(
-    { id: 'logger-container', className: 'logger-container scroller' },
+    { id: 'logger-container', className: 'logger-container hide-child' },
     [
       Span({
         className: 'clear-btn',
@@ -52,10 +49,10 @@ function createContainerEl(parent) {
         id: 'clear-btn',
         onclick: (e) => {
           e.stopPropagation()
-          containerEl.setAttribute('is', 'colabs')
+          containerEl.setAttribute('is', 'colabsed')
           setTimeout(() => {
             containerEl.clear()
-          }, 200)
+          }, animationDuration)
         }
       }),
       logConainer
@@ -67,26 +64,12 @@ function createContainerEl(parent) {
     logConainer.prepend(jsonEl)
   }
   containerEl.count = 0
-  containerEl.setAttribute('is', 'colabs')
+  containerEl.setAttribute('is', 'colabsed')
 
   containerEl.clear = () => {
     console.clear()
     if (!containerEl) return
-    containerEl.replaceChildren(
-      Span({
-        className: 'clear-btn',
-        innerText: 'clear',
-        id: 'clear-btn',
-        onclick: (e) => {
-          e.stopPropagation()
-          containerEl.setAttribute('is', 'colabs')
-          setTimeout(() => {
-            containerEl.clear()
-          }, 200)
-        }
-      })
-    )
-
+    logConainer.innerHTML = ''
     containerEl.count = 0
   }
 
@@ -100,12 +83,17 @@ function createContainerEl(parent) {
     containerEl.style.top = `${moved[1] + y}px`
   }
 
-  const animationDuration = 500
   containerEl.onmousedown = ({ target, clientX, clientY }) => {
+    containerEl.style.transitionDuration = '0s'
     startX = clientX
     startY = clientY
+    const checkOffset = 20
+    const isRight =
+      containerEl.offsetLeft + containerEl.offsetWidth - checkOffset < clientX
+    const isBottom =
+      containerEl.offsetTop + containerEl.offsetHeight - checkOffset < clientY
+    if (isRight && isBottom) return
     moved = [containerEl.offsetLeft, containerEl.offsetTop]
-    containerEl.style.transitionDuration = '0s'
     const onMoveHandler = ({ clientX: x, clientY: y }) => {
       onMove(x, y)
     }
@@ -113,52 +101,77 @@ function createContainerEl(parent) {
       containerEl.style.transitionDuration = animationDuration + 'ms'
       window.removeEventListener('mousemove', onMoveHandler)
       window.removeEventListener('mouseup', onUpHandler)
-      if (containerEl.childElementCount === 1) return
+      if (logConainer.childElementCount === 0) return
       if (
-        moved[0] !== containerEl.offsetLeft ||
-        moved[1] !== containerEl.offsetTop
+        Math.abs(moved[0] - containerEl.offsetLeft) > 10 ||
+        Math.abs(moved[1] - containerEl.offsetTop) > 10
       ) {
         moved = [containerEl.offsetLeft, containerEl.offsetTop]
+        containerEl.corectPosition()
         return
       }
-
-      const overScreen =
-        containerEl.offsetTop > window.innerHeight / 2 ||
-        containerEl.offsetLeft > window.innerWidth / 2
-      if (containerEl.offsetLeft < 0) containerEl.style.left = '10px'
-      const isColabs = containerEl.getAttribute('is') === 'colabs'
-      containerEl.setAttribute(
-        'is',
-        isColabs ? (overScreen ? 'default' : 'visible') : 'colabs'
-      )
-
-      if (isColabs) {
-        containerEl.classList.remove('hide-child')
-        containerEl.count = 0
-        containerEl.setAttribute('log-count', 'hide')
-      } else {
-        setTimeout(() => {
-          containerEl.classList.add('hide-child')
-        }, animationDuration)
-      }
+      containerEl.toogle()
     }
     window.addEventListener('mousemove', onMoveHandler)
     window.addEventListener('mouseup', onUpHandler)
   }
+  containerEl.toogle = () => {
+    const isColabs = containerEl.getAttribute('is') === 'colabsed'
+    if (isColabs) {
+      containerEl.show()
+    } else {
+      containerEl.colabs()
+    }
+  }
+  containerEl.colabs = () => {
+    containerEl.setAttribute('is', 'colabsed')
+    setTimeout(() => {
+      containerEl.corectPosition()
+      containerEl.classList.add('hide-child')
+    }, animationDuration)
+  }
   containerEl.show = () => {
-    const isColabs = containerEl.getAttribute('is') === 'colabs'
+    const isColabs = containerEl.getAttribute('is') === 'colabsed'
     if (!isColabs) return
     const overScreen =
       containerEl.offsetTop > window.innerHeight / 2 ||
       containerEl.offsetLeft > window.innerWidth / 2
-    if (containerEl.offsetLeft < 0) containerEl.style.left = '10px'
 
     containerEl.setAttribute('is', overScreen ? 'default' : 'visible')
-    setTimeout(() => {
-      containerEl.classList.remove('hide-child')
-    }, animationDuration)
+    containerEl.classList.remove('hide-child')
+    containerEl.corectPosition()
+  }
+  containerEl.corectPosition = () => {
+    const margin = 20
+    if (containerEl.offsetLeft < 0) containerEl.style.left = '10px'
+    else if (
+      containerEl.offsetLeft >
+      window.innerWidth - containerEl.offsetWidth
+    )
+      containerEl.style.left =
+        window.innerWidth - containerEl.offsetWidth - margin + 'px'
+
+    if (containerEl.offsetTop < 0) containerEl.style.top = '3%'
+    else if (
+      containerEl.offsetTop >
+      window.innerHeight - containerEl.offsetHeight
+    )
+      containerEl.style.top =
+        window.innerHeight - containerEl.offsetHeight - margin + 'px'
   }
 
   parent.append(containerEl)
   setTimeout(() => (containerEl.style.opacity = '1'), 10)
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('hidden')
+        } else {
+          entry.target.classList.add('hidden')
+        }
+      })
+    },
+    { threshold: 0, root: logConainer }
+  )
 }

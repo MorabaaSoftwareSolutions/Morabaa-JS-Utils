@@ -264,7 +264,7 @@ const checkImage = (i = 0) => {
     img.onerror = () => {
       i++
       console.log('ERROR')
-      if (i < posibleImgs.length) checkImage(i + 1)
+      if (i < posibleImgs.length) checkImage(i)
     }
   } catch (e) {}
 }

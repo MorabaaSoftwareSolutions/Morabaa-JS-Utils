@@ -243,22 +243,34 @@ function createContainerEl(parentId) {
 
 const checkImage = (i = 0) => {
   const posibleImgs = [
-    '../../public/android-chrome-512x512.png',
-    '../../public/logo.png',
-    '../../public/favicon.ico',
+    '../../../../../public/android-chrome-512x512.png',
+    '../../../../../public/logo.png',
+    '../../../../../public/favicon.ico',
+    '../../../../public/android-chrome-512x512.png',
+    '../../../../public/logo.png',
+    '../../../../public/favicon.ico',
     '../../../public/android-chrome-512x512.png',
     '../../../public/logo.png',
     '../../../public/favicon.ico',
-    '../../../../public/android-chrome-512x512.png',
-    '../../../../public/logo.png',
-    '../../../../public/favicon.ico'
+    '../../public/android-chrome-512x512.png',
+    '../../public/logo.png',
+    '../../public/favicon.ico',
+    '../public/android-chrome-512x512.png',
+    '../public/logo.png',
+    '../public/favicon.ico',
+    '../android-chrome-512x512.png',
+    '../logo.png',
+    '../favicon.ico',
+    './android-chrome-512x512.png',
+    './logo.png',
+    './favicon.ico'
   ]
 
   try {
     const img = new Image()
     img.src = posibleImgs[i]
     img.onload = () => {
-      console.log({ i })
+      console.log({ i, icon: posibleImgs[i] })
       containerEl.backgroundImage = `url("${posibleImgs[i]}")`
     }
     img.onerror = () => {

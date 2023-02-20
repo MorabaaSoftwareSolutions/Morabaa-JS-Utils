@@ -1,5 +1,5 @@
 import React from 'react'
-import { JsonBuilder, JsonParser, JsonToView, MockJsonSample } from '../Lib'
+import { JsonBuilder, JsonParser, MockJsonSample } from '../Lib'
 import './json.css'
 
 const JsonExample = () => {
@@ -18,7 +18,6 @@ const JsonExample = () => {
       className='col gap-lg p-lg h-screen overflow-auto scroller'
     >
       <h1>JsonExample</h1>
-      <JsonToView json={{ ...MockJsonSample, type: 'JsonToView' }} />
       <JsonBuilder json={{ ...MockJsonSample, type: 'JsonBuilder' }} />
     </div>
   )

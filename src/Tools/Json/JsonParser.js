@@ -4,16 +4,20 @@ const Function = ({ item }) =>
   Span({
     className: 'obj-text-1',
     onclick: item,
-    innerText: JSON.stringify(item)
+    innerText: JSON.stringify(
+      json.toString().split('{')[0]?.split('=>')[0] || 'undefined function'
+    )
   })
-const String = ({ item }) => Span({ className: 'obj-text-1', innerText: item })
+const String = ({ item }) =>
+  Span({ className: 'obj-text-1', innerText: `" ${item} "` })
 const Boolean = ({ item }) => Span({ className: 'obj-text-1', innerText: item })
 const StringArray = (item) =>
-  Span({ className: 'obj-text-2 px-sm', innerText: `${item}, ` })
+  Span({ className: 'obj-text-2 px-sm', innerText: `"${item}" , ` })
 const Image = ({ item }) =>
   Img({ style: 'max-height: 100px;object-fit: cover;', src: item })
 const ArrayImages = ({ item }) =>
   item.map((_i) => Img({ height: 250, src: _i }))
+
 const Array = ({ item }) => {
   item = Object.values(item)
     .filter((value) => nullables.includes(value) === false)
@@ -26,8 +30,7 @@ const Array = ({ item }) => {
         return _type === 'Object' || _type === 'Array'
           ? Div(
               {
-                className:
-                  'bg-prim Object rounded-lg p-sm row-center wrap gap-sm my-xs'
+                className: 'obj'
               },
               [_Object({ key: '', item: _i })]
             )
@@ -37,12 +40,13 @@ const Array = ({ item }) => {
     Span({ className: 'obj-text-3 px-sm', innerText: ']' })
   ])
 }
+
 const _Object = ({ key, item }) => {
   const _item = Object.entries(item)
     .filter(([_, value]) => nullables.includes(value) === false)
     .sort((o) => sortByType(o[1]))
   let nodes = document.createElement('div')
-  nodes.className = 'bg-prim rounded-lg p-sm row-center wrap gap-sm'
+  nodes.className = 'json-bg-prim rounded-lg p-sm row-center wrap gap-sm'
   nodes.id = item.id
 
   nodes.append(Span({ innerText: '{' }))

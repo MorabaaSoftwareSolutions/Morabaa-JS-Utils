@@ -13,16 +13,19 @@
     --json-prim:#2d303e;  
     --json-prince:#393c4a;
     --json-shark:#c4c4c7;
-    --json-crow:#1f1d2b;
     --json-king:#3b3e4c;
+    --json-crow:#ffffff;
 }
 .light{
     --json-prim:#FFFFFF;  
     --json-king:  #f6f6f6;
     --json-prince:#f6f6f6;
     --json-shark:#c4c4c7;
-    --json-crow:#ffffff;
+    --json-crow:#1f1d2b;
 }
+
+.json-bg-prim{background-color: var(--json-prim);}
+.json-text-green{color: var(--json-green);}
 
 .json-builder{
     font-family: var(--font-bold);

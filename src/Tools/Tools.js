@@ -33,3 +33,27 @@ export function Video(props, children) {
   props.id = 'video'
   return CreateTag('video', props, children)
 }
+
+export const ReactToNode = ({ reactComponent, props }) =>
+  create(reactComponent(props))
+
+const create = (reactComponent) => {
+  const element = document.createElement(reactComponent.type)
+  Object.entries(reactComponent.props).map(([key, value]) => {
+    if (key === 'children') return
+    else if (key === 'style')
+      return Object.entries(value).map(
+        ([styleKey, styleValue]) => (element.style[styleKey] = styleValue)
+      )
+    else if (key !== 'className') key = key.toLocaleLowerCase()
+    element[key] = value
+  })
+  if (typeof reactComponent.props.children === 'object') {
+    Array.isArray(reactComponent.props.children)
+      ? Object.values(reactComponent.props.children).forEach((nestedChild) =>
+          element.append(create(nestedChild))
+        )
+      : element.append(create(reactComponent.props.children))
+  } else element.append(reactComponent.props.children)
+  return element
+}

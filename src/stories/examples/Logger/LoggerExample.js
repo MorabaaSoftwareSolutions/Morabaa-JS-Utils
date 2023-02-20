@@ -12,36 +12,36 @@ const LoggerExample = () => {
         onClick={() => {
           init++
           Logger({
-            json: 'MockJsonSample' + init,
+            jsonLog: 'MockJsonSample' + init,
             parent: document.getElementById('logger-example')
           })
           return
           if (init) return
           Logger({
-            json: MockJsonSample,
+            jsonLog: MockJsonSample,
             parent: document.getElementById('logger-example')
           })
           Logger({
-            json: MockJsonSample,
+            jsonLog: MockJsonSample,
             parent: document.getElementById('logger-example'),
             type: 'error'
           })
           Logger({
-            json: MockJsonSample,
+            jsonLog: MockJsonSample,
             parent: document.getElementById('logger-example'),
             type: 'warn'
           })
           Logger({
-            json: MockJsonSample,
+            jsonLog: MockJsonSample,
             parent: document.getElementById('logger-example'),
             type: 'success'
           })
           Logger({
-            json: 0,
+            jsonLog: 0,
             parent: document.getElementById('logger-example')
           })
           Logger({
-            json: 'MockJsonSample',
+            jsonLog: 'MockJsonSample',
             parent: document.getElementById('logger-example')
           })
         }}

@@ -18,7 +18,7 @@ const isMobile = navigator.userAgent.toLowerCase().match(/mobile/i) != null
 // )
 
 const Logger = async ({
-  json,
+  jsonLog,
   clear = false,
   type = '',
   parentId = 'root'
@@ -39,10 +39,10 @@ const Logger = async ({
     containerEl.count = 0
     containerEl.setAttribute('log-count', 'hide')
   }
-  if (!json) json = `${json}`
-  if (typeof json !== 'object') json = { '.': json }
-  console.log(json)
-  let jsonEl = Div({ className: 'log-container' }, [JsonParser(json)])
+  if (!jsonLog) jsonLog = `${jsonLog}`
+  if (typeof jsonLog !== 'object') jsonLog = { '.': jsonLog }
+  console.log(jsonLog)
+  let jsonEl = Div({ className: 'log-container' }, [JsonParser(jsonLog)])
   observer.observe(jsonEl, { childList: true, subtree: true })
 
   if (type) {
@@ -243,6 +243,9 @@ function createContainerEl(parentId) {
 
 const checkImage = (i = 0) => {
   const posibleImgs = [
+    '../logo.png',
+    '../favicon.ico',
+    '../android-chrome-512x512.png',
     '../public/android-chrome-512x512.png',
     '../public/logo.png',
     '../public/favicon.ico',
@@ -252,9 +255,6 @@ const checkImage = (i = 0) => {
     '../../public/android-chrome-512x512.png',
     '../../public/logo.png',
     '../../public/favicon.ico',
-    '../android-chrome-512x512.png',
-    '../logo.png',
-    '../favicon.ico',
     './android-chrome-512x512.png',
     './logo.png',
     './favicon.ico'
@@ -264,12 +264,12 @@ const checkImage = (i = 0) => {
     const img = new Image()
     img.src = posibleImgs[i]
     img.onload = () => {
-      console.log({ i, icon: posibleImgs[i] })
+      console.debug({ i, icon: posibleImgs[i] })
       containerEl.style.backgroundImage = `url("${posibleImgs[i]}")`
     }
     img.onerror = () => {
       i++
-      console.log('ERROR')
+      console.debug('ERROR')
       if (i < posibleImgs.length) checkImage(i)
     }
   } catch (e) {}

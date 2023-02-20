@@ -120,8 +120,3 @@
  .Array       {color: var(--json-cyan);     padding:4px 10px;     }/*box-shadow: inset 0px 0px 4px  var(--json-penguin);    */
  .ArrayImages {color: var(--json-penguin);  padding:4px 10px;     }/*box-shadow: inset 0px 0px 4px  var(--json-penguin);    */
  .Image       {color: var(--json-lion);     padding:4px 10px;    grid-row: 1 ;}/*box-shadow: inset 0px 0px 4px  var(--json-lion);       */
- 
- .shadow-gray    {box-shadow: 0px 0px 6px rgba(107 ,114 ,128, 0.5);}
- .shadow-cyan    {box-shadow: 0px 0px 6px rgba(32, 211, 238,0.5);}
- .shadow-red     {box-shadow: 0px 0px 6px rgba(252, 165, 165,0.5);}
- .shadow-purple  {box-shadow: 0px 0px 6px rgba(168, 85 ,247,0.5);} 

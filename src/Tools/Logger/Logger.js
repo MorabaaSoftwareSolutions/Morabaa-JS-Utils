@@ -258,6 +258,7 @@ const checkImage = (i = 0) => {
     const img = new Image()
     img.src = posibleImgs[i]
     img.onload = () => {
+      console.log({ i })
       containerEl.backgroundImage = `url("${posibleImgs[i]}")`
     }
     img.onerror = () => {

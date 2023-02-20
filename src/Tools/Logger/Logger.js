@@ -17,12 +17,7 @@ const isMobile = navigator.userAgent.toLowerCase().match(/mobile/i) != null
 //   })
 // )
 
-const Logger = async ({
-  jsonLog,
-  clear = false,
-  type = '',
-  parentId = 'root'
-}) => {
+const Logger = async ({ msg, clear = false, type = '', parentId = 'root' }) => {
   if (!containerEl) {
     await Utils.sleep(100)
     createContainerEl(parentId)
@@ -39,10 +34,10 @@ const Logger = async ({
     containerEl.count = 0
     containerEl.setAttribute('log-count', 'hide')
   }
-  if (!jsonLog) jsonLog = `${jsonLog}`
-  if (typeof jsonLog !== 'object') jsonLog = { '.': jsonLog }
-  console.log(jsonLog)
-  let jsonEl = Div({ className: 'log-container' }, [JsonParser(jsonLog)])
+  if (!msg) msg = `${msg}`
+  if (typeof msg !== 'object') msg = { '.': msg }
+  console.log(msg)
+  let jsonEl = Div({ className: 'log-container' }, [JsonParser(msg)])
   observer.observe(jsonEl, { childList: true, subtree: true })
 
   if (type) {
@@ -241,11 +236,15 @@ function createContainerEl(parentId) {
   )
 }
 
+Logger.log = (msg) => {
+  Logger({ msg, type: 'infor' })
+}
+
 const checkImage = (i = 0) => {
   const posibleImgs = [
+    '../android-chrome-512x512.png',
     '../logo.png',
     '../favicon.ico',
-    '../android-chrome-512x512.png',
     '../public/android-chrome-512x512.png',
     '../public/logo.png',
     '../public/favicon.ico',

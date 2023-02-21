@@ -85,8 +85,7 @@ const createLogger = (parentId) => {
 
   _logger.addLog = ({ jsonEl, silent }) => {
     if (container.getAttribute('is') === 'collapsed') {
-      _logger.count++
-      _logger.setIndecator()
+      _logger.setIndecator(_logger.count + 1)
       if (!silent) _logger.expand()
     }
 
@@ -98,8 +97,10 @@ const createLogger = (parentId) => {
   }
   container.setAttribute('is', 'collapsed')
 
-  _logger.setIndecator = (count = _logger.count) =>
+  _logger.setIndecator = (count) => {
+    _logger.count = count
     container.setAttribute('log-count', count > 0 ? count : 'hide')
+  }
 
   _logger.clear = () => {
     if (!container) return
@@ -211,6 +212,7 @@ const createLogger = (parentId) => {
     _logger.toggleIcon(false)
     const isColabsed = container.getAttribute('is') === 'collapsed'
     if (!isColabsed) return
+    _logger.setIndecator(0)
     container.setAttribute('is', 'expanded')
     container.classList.remove('hide-child')
 

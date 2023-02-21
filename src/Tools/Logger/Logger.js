@@ -189,9 +189,11 @@ function createContainerEl(parentId) {
     setTimeout(() => {
       containerEl.corectPosition()
       containerEl.classList.add('hide-child')
+      containerEl.toogleIcon(true)
     }, animationDuration)
   }
   containerEl.show = () => {
+    containerEl.toogleIcon(false)
     const isColabs = containerEl.getAttribute('is') === 'colabsed'
     if (!isColabs) return
     const overScreen =
@@ -269,9 +271,12 @@ const checkImage = (i = 0) => {
     img.src = posibleImgs[i]
     img.onload = () => {
       console.debug({ i, icon: posibleImgs[i] })
-
-      containerEl.style.setProperty =
-        ('--logger-icon', `url("${posibleImgs[i]}")`)
+      containerEl.toogleIcon = (show) => {
+        containerEl.style.backgroundImage = show
+          ? `url("${posibleImgs[i]}")`
+          : 'none'
+      }
+      containerEl.toogleIcon(true)
     }
     img.onerror = () => {
       i++

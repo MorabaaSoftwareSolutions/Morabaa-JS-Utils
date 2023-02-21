@@ -1,5 +1,4 @@
 .logger-container{ 
-    --logger-icon:'';
     position: fixed;
     top: 10%;
     left: 10px;
@@ -8,10 +7,8 @@
     background-color: var(--json-prince);
     transition: all 250ms cubic-bezier( 0.4, 0, 0.2, 1 );
     border-radius: var(--xl) !important;
-    background-size: 50%;
     font-size: var(--font-sm) !important;
-    background-repeat: no-repeat;
-    background-position: center;
+    
     width: 400px;
     height: 50vh;
     max-width: 95vw;
@@ -72,6 +69,7 @@
     display: none !important;
 }
 
+
 [is="colabsed"]{
     max-width:  40px !important;
     max-height: 40px !important;
@@ -81,9 +79,12 @@
     box-shadow: inset 0px 0px 6px rgba(95, 20, 20, 0.5);
     animation: loop 4s ease-out infinite;
     padding: var(--xs);
-    background-image: var(--logger-icon);
     resize: none;
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
+[is="visible"]{background-image: unset !important;}
 
 .logger-clear-btn {
     background-color:var(--json-red);

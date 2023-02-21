@@ -19,7 +19,8 @@ const LoggerExample = () => {
           if (init) return
           Logger({
             log: MockJsonSample,
-            parent: document.getElementById('logger-example')
+            parent: document.getElementById('logger-example'),
+            silent: false
           })
           Logger({
             log: MockJsonSample,

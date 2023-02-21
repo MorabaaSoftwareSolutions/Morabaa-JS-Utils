@@ -1,13 +1,14 @@
 import { Div, Fragment, Img, Span } from '../Tools'
 
-const Function = ({ item }) =>
-  Span({
+const Function = ({ item }) => {
+  return Span({
     className: 'obj-text-1',
     onclick: item,
     innerText: JSON.stringify(
-      json.toString().split('{')[0]?.split('=>')[0] || 'undefined function'
+      item.toString().split('{')[0]?.split('=>')[0] || 'undefined function'
     )
   })
+}
 const String = ({ item }) =>
   Span({ className: 'obj-text-1', innerText: `" ${item} "` })
 const Number = ({ item }) =>

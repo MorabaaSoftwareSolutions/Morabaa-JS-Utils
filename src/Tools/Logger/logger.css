@@ -1,4 +1,5 @@
 .logger-container{ 
+    --logger-icon:'';
     position: fixed;
     top: 10%;
     left: 10px;
@@ -80,11 +81,11 @@
     box-shadow: inset 0px 0px 6px rgba(95, 20, 20, 0.5);
     animation: loop 4s ease-out infinite;
     padding: var(--xs);
-    /* background-image: url("../../../public/android-chrome-512x512.png"); */
+    background-image: var(--logger-icon);
     resize: none;
 }
 
-.clear-btn {
+.logger-clear-btn {
     background-color:var(--json-red);
     color: #ffffff;
     margin:4px 10px -13px 0;
@@ -92,14 +93,14 @@
     border-radius: 20px;
     padding: 2px 4px;
     animation: visible 1s ease-out;
-    z-index: 333;
+    z-index: 339;
 }
 @keyframes visible {
     0%,90% { opacity: 0;display: none; }
     100% { opacity: 1;display: block; }
     
 }
-[is="colabsed"] .clear-btn {
+[is="colabsed"] .logger-clear-btn {
     display: none !important;
 }
 

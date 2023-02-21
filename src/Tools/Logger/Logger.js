@@ -17,7 +17,12 @@ const isMobile = navigator.userAgent.toLowerCase().match(/mobile/i) != null
 //   })
 // )
 
-const Logger = async ({ msg, clear = false, type = '', parentId = 'root' }) => {
+const Logger = async ({
+  msg,
+  clear = false,
+  type = 'default',
+  parentId = 'root'
+}) => {
   if (!containerEl) {
     await Utils.sleep(100)
     createContainerEl(parentId)
@@ -59,15 +64,13 @@ function createContainerEl(parentId) {
     { id: 'logger-container', className: 'logger-container hide-child' },
     [
       Span({
-        className: 'clear-btn',
+        className: 'logger-clear-btn',
         innerText: 'clear',
-        id: 'clear-btn',
+        id: 'logger-clear-btn',
         onclick: (e) => {
-          if (containerEl.getAttribute('is') === 'colabsed') return
           e.stopPropagation()
           containerEl.setAttribute('is', 'colabsed')
           setTimeout(() => {
-            if (containerEl.getAttribute('is') === 'colabsed') return
             containerEl.clear()
           }, animationDuration)
         }
@@ -90,6 +93,7 @@ function createContainerEl(parentId) {
     if (!containerEl) return
     logConainer.innerHTML = ''
     containerEl.count = 0
+    containerEl.setAttribute('log-count', 'hide')
   }
 
   let moved = [containerEl.offsetLeft, containerEl.offsetTop]
@@ -138,7 +142,7 @@ function createContainerEl(parentId) {
       window.addEventListener('touchend', onUpHandler)
     }
   else
-    containerEl.onmousedown = ({ which, clientX, clientY }) => {
+    containerEl.onmousedown = ({ which, clientX, clientY, id }) => {
       if (which !== 1) return
       containerEl.style.transitionDuration = '0s'
       startX = clientX
@@ -236,9 +240,10 @@ function createContainerEl(parentId) {
   )
 }
 
-Logger.log = (msg) => {
-  Logger({ msg, type: 'infor' })
-}
+Logger.log = (msg) => Logger({ msg, type: 'infor' })
+Logger.warn = (msg) => Logger({ msg, type: 'warn' })
+Logger.error = (msg) => Logger({ msg, type: 'error' })
+Logger.debug = (msg) => Logger({ msg, type: 'debug' })
 
 const checkImage = (i = 0) => {
   const posibleImgs = [
@@ -264,11 +269,12 @@ const checkImage = (i = 0) => {
     img.src = posibleImgs[i]
     img.onload = () => {
       console.debug({ i, icon: posibleImgs[i] })
-      containerEl.style.backgroundImage = `url("${posibleImgs[i]}")`
+
+      containerEl.style.setProperty =
+        ('--logger-icon', `url("${posibleImgs[i]}")`)
     }
     img.onerror = () => {
       i++
-      console.debug('ERROR')
       if (i < posibleImgs.length) checkImage(i)
     }
   } catch (e) {}

@@ -1,3 +1,4 @@
+import { Utils } from '../../utils'
 import { JsonParser } from '../Json'
 import { Div, isMobile, Span } from '../Tools'
 
@@ -28,19 +29,31 @@ let observer = {
   observe: () => {}
 }
 
-const Logger = ({
+const Logger = async ({
   log = '',
-  clear = false,
   type = 'default',
+  clear = false,
   parentId = 'root',
-  silent = type !== 'error'
+  silent = true,
+  withoutAnimation = false,
+  className = ''
 }) => {
-  if (!container) createLogger(parentId)
+  if (!container) {
+    await Utils.sleep(100)
+    createLogger(parentId)
+  }
 
   if (clear) _logger.clear()
   console.log(log)
 
-  let jsonEl = Div({ className: 'log-container' }, [JsonParser({ json: log })])
+  let jsonEl = Div(
+    {
+      className: `log-container ${className} ${
+        withoutAnimation ? '' : 'fade-in-log'
+      }`
+    },
+    [JsonParser({ json: log })]
+  )
   jsonEl.firstChild.setAttribute('type', type)
 
   _logger.addLog({ jsonEl, silent })

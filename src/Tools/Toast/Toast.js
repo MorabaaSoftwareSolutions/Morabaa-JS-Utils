@@ -21,13 +21,13 @@ const init = () => {
 }
 init()
 
-const Toast = ({
+function Toast({
   title = '',
   content = '',
   timeout = 4000,
   type = 'default',
   haveBorder: displayBorder = true
-}) => {
+}) {
   let id = title + content
   const { bg, text, border } = colorByType[type]
   let style =

@@ -60,8 +60,8 @@
     }
 
  .json-builder[type="warn"]::before{
-    min-width: 50px;
-    text-align: center;
+     min-width: 50px;
+     text-align: center;
      background-color: var(--json-yellow) !important;
      box-shadow: 0px 0px 6px var(--json-yellow) !important;
      content: 'Warn';

@@ -10,47 +10,48 @@ const LoggerExample = () => {
       <p
         className='button m-auto'
         onClick={() => {
+          Logger.expand()
           init++
           Logger({
-            msg: 'MockJsonSample' + init,
+            log: 'MockJsonSample' + init,
             parent: document.getElementById('logger-example')
           })
           if (init) return
           Logger({
-            msg: MockJsonSample,
+            log: MockJsonSample,
             parent: document.getElementById('logger-example')
           })
           Logger({
-            msg: MockJsonSample,
+            log: MockJsonSample,
             parent: document.getElementById('logger-example'),
             type: 'error'
           })
           Logger({
-            msg: MockJsonSample,
+            log: MockJsonSample,
             parent: document.getElementById('logger-example'),
             type: 'warn'
           })
           Logger({
-            msg: MockJsonSample,
+            log: MockJsonSample,
             parent: document.getElementById('logger-example'),
             type: 'success'
           })
           Logger({
-            msg: MockJsonSample,
+            log: MockJsonSample,
             parent: document.getElementById('logger-example'),
             type: 'debug'
           })
           Logger({
-            msg: MockJsonSample,
+            log: MockJsonSample,
             parent: document.getElementById('logger-example'),
             type: 'info'
           })
           Logger({
-            msg: 0,
+            log: 0,
             parent: document.getElementById('logger-example')
           })
           Logger({
-            msg: 'MockJsonSample',
+            log: 'MockJsonSample',
             parent: document.getElementById('logger-example')
           })
         }}

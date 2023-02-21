@@ -57,3 +57,6 @@ const create = (reactComponent) => {
   } else element.append(reactComponent.props.children)
   return element
 }
+
+export const isMobile =
+  navigator.userAgent.toLowerCase().match(/mobile/i) != null

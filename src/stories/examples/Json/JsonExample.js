@@ -8,7 +8,7 @@ const JsonExample = () => {
     const jsonParser = jsonExampleConatiner.querySelector('#json-parser')
     if (!jsonParser) {
       jsonExampleConatiner.append(
-        JsonParser({ ...MockJsonSample, JsonType: 'JsonParser' })
+        JsonParser({ json: { ...MockJsonSample, JsonType: 'JsonParser' } })
       )
     }
   }, 100)

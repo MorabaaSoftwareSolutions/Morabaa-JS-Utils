@@ -78,23 +78,26 @@ const _Object = ({ key, item }) => {
   nodes.append(Span({ innerText: '},' }))
   return nodes
 }
-const JsonParser = (item, setItem, containerClass, onClick) => {
-  const _item = Object.entries(item)
+const JsonParser = ({ json, setItem, containerClass, onClick }) => {
+  if (typeof json !== 'object')
+    return Span({ className: 'json-builder', innerText: json })
+
+  const _item = Object.entries(json)
     .filter(([_, value]) => nullables.includes(value) === false)
     .sort((o) => (sortByType(o[1]) ? -1 : 1))
   function onclick() {
-    setItem && setItem(item)
+    setItem && setItem(json)
   }
 
   let nodes = document.createElement('div')
   nodes.className = 'json-builder'
   if (onClick)
     nodes.onclick = () => {
-      onClick(item)
-      setItem && setItem(item)
+      onClick(json)
+      setItem && setItem(json)
     }
   else nodes.onclick = onclick
-  nodes.id = item.id
+  nodes.id = json.id
   _item.forEach(([key, value], _i) => {
     let type = getType(value)
     if (!type) return

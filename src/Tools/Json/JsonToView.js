@@ -7,7 +7,9 @@ const JsonBuilder = ({ json, containerClass, onClick, setItem }) => (
       if (!ref || ref.innerHTML) return
       const _setItem = (item) => {
         ref.innerHTML = ''
-        ref.append(JsonParser(item, _setItem, containerClass, onClick))
+        ref.append(
+          JsonParser({ json: item, setItem: _setItem, containerClass, onClick })
+        )
       }
       _setItem(json)
     }}

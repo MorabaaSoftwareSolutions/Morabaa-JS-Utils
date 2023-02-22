@@ -79,6 +79,10 @@ class SpliterClass extends React.Component {
         let client = 'client' + (vertical ? 'Y' : 'X')
 
         spliter.addEventListener('mousedown', (e) => {
+          // remove transition to avoid flickering
+          this.targetChild.style.transition = 'none'
+          this.relatedChild.style.transition = 'none'
+
           this.startPostino = vertical ? e.clientY : e.clientX
           this.startDim = Round(this.targetChild.style[dim])
           this.relatedStartedDim = Round(this.relatedChild.style[dim])
@@ -105,6 +109,9 @@ class SpliterClass extends React.Component {
 
           let mouseUp = (e) => {
             SaveCols()
+            // add transition back
+            this.targetChild.style.transition = ''
+            this.relatedChild.style.transition = ''
             document.removeEventListener('mousemove', mouseMove)
             document.removeEventListener('mouseup', mouseUp)
           }

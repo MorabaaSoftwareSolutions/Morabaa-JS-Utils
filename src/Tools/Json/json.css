@@ -34,8 +34,8 @@
         --font-2xl: 20px;
     }
     .light{
-        --json-prim:#FFFFFF;  
-        --json-king:  #f6f6f6;
+        --json-prim:#fdfdfd;  
+        --json-king:#f6f6f6;
         --json-prince:#f6f6f6;
         --json-shark:#c4c4c7;
         --json-crow:#1f1d2b;
@@ -78,11 +78,11 @@
          min-width: 50px;
          text-align: center;
          background-color: var(--json-yellow) !important;
-         box-shadow: 0px 0px 6px var(--json-yellow) !important;
+         filter: drop-shadow(0px 0px 6px var(--json-yellow) )!important;
          content: 'Warn';
          color: #fff;
          padding: 2px 4px;
-         border-radius: 13px;
+         border-radius: 8px;
          font-size: 10px;
      }
     
@@ -92,31 +92,31 @@
         content: 'Error';
         color: #fff;
         padding: 2px 4px;
-        border-radius: 13px;
+        border-radius: 8px;
         background-color: var(--json-red) !important;
-        box-shadow: 0px 0px 6px var(--json-red) !important;
+        filter: drop-shadow(0px 0px 6px var(--json-red) )!important;
         font-size: 10px;
      }
      .json-builder[type="success"]::before{
         min-width: 50px;
         text-align: center;
         background-color: var(--json-green) !important;
-        box-shadow: 0px 0px 6px var(--json-green) !important;
+        filter: drop-shadow(0px 0px 6px var(--json-green) )!important;
         content: 'Success';
         color: #fff;
         padding: 2px 4px;
-        border-radius: 13px;
+        border-radius: 8px;
         font-size: 10px;
     }
      .json-builder[type="info"]::before{
         min-width: 50px;
         text-align: center;
         background-color: var(--json-sky) !important;
-        box-shadow: 0px 0px 6px var(--json-sky) !important;
+        filter: drop-shadow(0px 0px 6px var(--json-sky) )!important;
         content: 'Info';
         color: #fff;
         padding: 2px 4px;
-        border-radius: 13px;
+        border-radius: 8px;
         font-size: 10px;
      }
     
@@ -124,11 +124,11 @@
         min-width: 50px;
         text-align: center;
         background-color: var(--json-debug) !important;
-        box-shadow: 0px 0px 6px var(--json-debug-light) !important;
+        filter: drop-shadow(0px 0px 6px var(--json-debug-light) )!important;
         content: 'Debug';
         color: #fff;
         padding: 2px 4px;
-        border-radius: 13px;
+        border-radius: 8px;
         font-size: 10px;
      }
     
@@ -148,5 +148,5 @@
      .Array       {color: var(--json-cyan);     padding:4px 10px;     }/*box-shadow: inset 0px 0px 4px  var(--json-sky);    */
      .ArrayImages {color: var(--json-sky);      padding:4px 10px;     }/*box-shadow: inset 0px 0px 4px  var(--json-sky);    */
      .Image       {color: var(--json-lion);     padding:4px 10px;     grid-row: 1 ;}/*box-shadow: inset 0px 0px 4px  var(--json-lion);       */
-     .Function    {color: var(--json-frog);    padding:4px 10px;     filter:drop-shadow(0px 0px 3px #bada5599);}
+     .Function    {color: var(--json-frog);     padding:4px 10px;     filter:drop-shadow(0px 0px 3px #bada5599);}
 }

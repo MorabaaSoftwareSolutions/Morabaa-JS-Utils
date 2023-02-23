@@ -21,7 +21,12 @@ let _logger = {
   removeEventListener: () => {},
   classList: {},
   append: () => {},
-  insertBefore: () => {}
+  insertBefore: () => {},
+  parentId: 'root',
+  silent: false,
+  popup: true,
+  withoutAnimation: false,
+  containerClassName: 'logger-container hide-child'
 }
 
 const animationDuration = 250
@@ -33,10 +38,10 @@ const Logger = async ({
   log = '',
   type = 'default',
   clear = false,
-  parentId = 'root',
-  silent = false,
-  withoutAnimation = false,
-  className = ''
+  parentId = _logger.parentId,
+  silent = _logger.silent,
+  withoutAnimation = _logger.withoutAnimation,
+  className = _logger.className
 }) => {
   if (!container) {
     await Utils.sleep(100)
@@ -77,11 +82,30 @@ Logger.isExpanded = () => _logger.getAttribute('is') === 'expanded'
 Logger.is = ({ state }) => _logger.getAttribute('is') === state
 Logger.addLog = ({ log, silent = false }) => _logger.addLog(log, silent)
 
+Logger.setProps = ({
+  silent,
+  popup = true,
+  parentId = 'root',
+  withoutAnimation,
+  containerClassName
+}) => {
+  _logger.silent = silent
+  _logger.popup = popup
+  _logger.parentId = parentId
+  _logger.withoutAnimation = withoutAnimation
+  _logger.containerClassName = containerClassName
+  if (container) {
+    container.style.position = popup ? 'fixed' : 'absolute'
+    containerClassName &&
+      (container.className = `logger-container hide-child ${containerClassName}`)
+  }
+}
+
 const createLogger = (parentId) => {
   if (container) return
   const logConainer = Div({ className: 'logger-child scroller' })
   container = Div(
-    { id: 'logger-container', className: 'logger-container hide-child' },
+    { id: 'logger-container', className: _logger.containerClassName },
     [
       Span({
         className: 'logger-clear-btn',
@@ -95,7 +119,8 @@ const createLogger = (parentId) => {
       logConainer
     ]
   )
-  checkImage()
+  container.style.position = _logger.popup ? 'fixed' : 'static'
+  // checkImage()
 
   _logger.addLog = ({ jsonEl, silent }) => {
     if (container.getAttribute('is') === 'collapsed') {
@@ -259,7 +284,7 @@ const createLogger = (parentId) => {
         }
       })
     },
-    { threshold: 0, root: logConainer }
+    { threshold: 0, root: container }
   )
 }
 

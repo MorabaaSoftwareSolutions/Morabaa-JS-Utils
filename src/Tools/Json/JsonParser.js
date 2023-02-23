@@ -114,7 +114,6 @@ const JsonParser = ({ json, setItem, containerClass, onClick }) => {
       (key === 'image' || checkIsImageURL(value))
     )
       type = 'Image'
-
     nodes.append(
       Div({ className: `obj ${type}` }, [
         Span({ className: `obj-key`, innerText: key }),

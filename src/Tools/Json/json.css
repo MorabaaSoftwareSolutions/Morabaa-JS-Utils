@@ -18,6 +18,20 @@
         --json-crow:#ffffff;
         --json-debug: #164e63;
         --json-debug-light: #84d7e277;
+
+        --xs:2px;
+        --sm:4px;
+        --md:8px;
+        --lg:10px;
+        --xl:12px;
+        --2xl:16px;
+
+        --font-xs: 10px;
+        --font-sm: 12px;
+        --font-md: 14px;
+        --font-lg: 16px;
+        --font-xl: 18px;
+        --font-2xl: 20px;
     }
     .light{
         --json-prim:#FFFFFF;  
@@ -127,11 +141,12 @@
      .String .obj-text-1{ color: var(--json-fox);}
      .Number .obj-text-1{ color: var(--json-sky);}
      
-     .String      {color: var(--json-orange);    padding:4px 10px;      }/*box-shadow: inset 0px 0px 4px  var(--red);        */
+     .String      {color: var(--json-orange);   padding:4px 10px;      }/*box-shadow: inset 0px 0px 4px  var(--red);        */
      .Number      {color: var(--json-shark);    padding:4px 10px;     }/*box-shadow: inset 0px 0px 4px  var(--json-green);      */
      .Boolean     {color: var(--json-frog);     padding:4px 10px;     }/*box-shadow: inset 0px 0px 4px  var(--jellyfish);  */
-     .Object      {color: var(--json-cyan);   padding:4px 10px;     ;box-shadow:inset  0px 0px 4px  #f9c08999; background-color: var(--json-prim);       }
+     .Object      {color: var(--json-cyan);     padding:4px 10px;     filter:drop-shadow(0px 0px 3px #84d7e2)}
      .Array       {color: var(--json-cyan);     padding:4px 10px;     }/*box-shadow: inset 0px 0px 4px  var(--json-sky);    */
-     .ArrayImages {color: var(--json-sky);  padding:4px 10px;     }/*box-shadow: inset 0px 0px 4px  var(--json-sky);    */
-     .Image       {color: var(--json-lion);     padding:4px 10px;    grid-row: 1 ;}/*box-shadow: inset 0px 0px 4px  var(--json-lion);       */
+     .ArrayImages {color: var(--json-sky);      padding:4px 10px;     }/*box-shadow: inset 0px 0px 4px  var(--json-sky);    */
+     .Image       {color: var(--json-lion);     padding:4px 10px;     grid-row: 1 ;}/*box-shadow: inset 0px 0px 4px  var(--json-lion);       */
+     .Function    {color: var(--json-frog);    padding:4px 10px;     filter:drop-shadow(0px 0px 3px #bada5599);}
 }

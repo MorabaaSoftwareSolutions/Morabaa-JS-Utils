@@ -1,14 +1,23 @@
 import React from 'react'
-import { JsonBuilder, JsonParser, MockJsonSample } from '../Lib'
+import { JsonBuilder, JsonParser, MockJsonSample, Utils } from '../Lib'
 import './json.css'
 
 const JsonExample = () => {
   setTimeout(() => {
     const jsonExampleConatiner = document.getElementById('json-example')
     const jsonParser = jsonExampleConatiner.querySelector('#json-parser')
+
     if (!jsonParser) {
       jsonExampleConatiner.append(
-        JsonParser({ json: { ...MockJsonSample, JsonType: 'JsonParser' } })
+        JsonParser({
+          json: {
+            date: Utils.formatedRelativeDate(
+              new Date('2021-01-01'),
+              new Date('2021-01-02')
+            ),
+            JsonType: 'JsonParser'
+          }
+        })
       )
     }
   }, 100)
@@ -18,6 +27,36 @@ const JsonExample = () => {
       className='col gap-lg p-lg h-screen overflow-auto scroller'
     >
       <h1>JsonExample</h1>
+
+      <JsonBuilder
+        json={{
+          seconds: Utils.formatedRelativeDate(
+            new Date('2021-01-01 00:00:01'),
+            new Date('2021-01-01 00:00:04')
+          ),
+          minutes: Utils.formatedRelativeDate(
+            new Date('2021-01-01 00:01:00'),
+            new Date('2021-01-01 00:04:00')
+          ),
+          hours: Utils.formatedRelativeDate(
+            new Date('2021-01-01 01:00:00'),
+            new Date('2021-01-01 04:00:00')
+          ),
+          days: Utils.formatedRelativeDate(
+            new Date('2021-01-01 00:00:00'),
+            new Date('2021-01-04 00:00:00')
+          ),
+          months: Utils.formatedRelativeDate(
+            new Date('2021-01-01 00:00:00'),
+            new Date('2021-04-01 00:00:00')
+          ),
+          years: Utils.formatedRelativeDate(
+            new Date('2021-01-01 00:00:00'),
+            new Date('2024-01-01 00:00:00')
+          ),
+          type: 'JsonBuilder'
+        }}
+      />
       <JsonBuilder json={{ ...MockJsonSample, type: 'JsonBuilder' }} />
     </div>
   )

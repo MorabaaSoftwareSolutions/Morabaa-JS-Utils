@@ -1,7 +1,6 @@
 import './logger.css'
 import React from 'react'
 import { Logger, MockJsonSample } from '../Lib'
-import '../../../Tools/Json/json.css'
 let init = -1
 const LoggerExample = () => {
   return (

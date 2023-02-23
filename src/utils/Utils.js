@@ -81,4 +81,79 @@ export default class Utils {
       }
     }
   }
+
+  static memoize = (fn) => {
+    const cache = {}
+    return (...args) => {
+      const key = JSON.stringify(args)
+      if (cache[key]) return cache[key]
+      const result = fn(...args)
+      cache[key] = result
+      return result
+    }
+  }
+
+  static preformace = (fn) => {
+    return (...args) => {
+      console.time('preformace')
+      const result = fn(...args)
+      console.timeEnd('preformace')
+      return result
+    }
+  }
+
+  static debounce = (fn, delay) => {
+    let timer
+    return (...args) => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        fn(...args)
+      }, delay)
+    }
+  }
+
+  static throttle = (fn, delay) => {
+    let timer
+    return (...args) => {
+      if (timer) return
+      timer = setTimeout(() => {
+        fn(...args)
+        timer = null
+      }, delay)
+    }
+  }
+
+  static groupBy = (array = [], key = '') =>
+    array.reduce((group, element) => {
+      const value = element[key]
+      return {
+        ...group,
+        [value]: [...(group[value] || []), element]
+      }
+    }, {})
+
+  static formatedRelativeDate = (toDate, fromDate = new Date()) => {
+    let duration = (toDate - fromDate) / 1000
+    for (const [unit, secondsInUnit] of DIVISIONS) {
+      if (Math.abs(duration) < secondsInUnit || unit === 'year') {
+        const value = Math.round(duration)
+        return RELATIVE_DATE_FORMATTER.format(value, unit)
+      }
+      duration /= secondsInUnit
+    }
+  }
 }
+
+const RELATIVE_DATE_FORMATTER = new Intl.RelativeTimeFormat('ar', {
+  numeric: 'auto'
+})
+
+const DIVISIONS = [
+  ['seconds', 60],
+  ['minutes', 60],
+  ['hours', 24],
+  ['days', 7],
+  ['weeks', 4.34812],
+  ['months', 12],
+  ['years', Infinity]
+]

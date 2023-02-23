@@ -13,7 +13,7 @@ const ArrayImages = ({ json }) =>
   json.map((_i) => <img key={_i} src={_i} style={{ width: 150 }} />)
 const Function = ({ json, key }) => {
   return (
-    <span onClick={json} key={key} className='json-text-green text-base'>
+    <span onClick={json} key={key} className='obj-text-1'>
       {JSON.stringify(
         json.toString().split('{')[0]?.split('=>')[0] || 'undefined function'
       )}
@@ -84,7 +84,7 @@ const _Object = ({ json }) => {
     </div>
   )
 }
-const JsonToView = ({ json, className = 'json-builder' }) => {
+const JsonBuilder = ({ json, className = 'json-builder' }) => {
   const _json = Object.entries(json)
     .filter(([_, value]) => nullables.includes(value) === false)
     .sort((o) => (sortByType(o[1]) ? -1 : 1))
@@ -116,7 +116,7 @@ const JsonToView = ({ json, className = 'json-builder' }) => {
   )
 }
 
-export default JsonToView
+export default JsonBuilder
 const valdTyps = [
   'String',
   'Number',

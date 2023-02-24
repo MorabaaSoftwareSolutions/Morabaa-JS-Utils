@@ -34,11 +34,11 @@ export function Video(props, children) {
   return CreateTag('video', props, children)
 }
 
-export const ReactToNode = (ReactToNode = ({ reactComponent, props = {} }) => {
+export const ReactToNode = ({ reactComponent, props = {} }) => {
   const fn = reactComponent.type ?? reactComponent
   if (typeof fn === 'function') return create(fn(props))
   else throw new Error('reactComponent must be a function')
-})
+}
 
 const create = (reactComponent) => {
   if (typeof reactComponent === 'string')

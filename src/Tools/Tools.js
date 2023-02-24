@@ -35,9 +35,8 @@ export function Video(props, children) {
 }
 
 export const ReactToNode = ({ reactComponent, props = {} }) => {
-  const fn = reactComponent.type ?? reactComponent
+  const fn = reactComponent?.type ?? reactComponent
   if (typeof fn === 'function') return create(fn(props))
-  else throw new Error('reactComponent must be a function')
 }
 
 const create = (reactComponent) => {

@@ -68,11 +68,16 @@ const Logger = async ({
 
 export default Logger
 
-Logger.log = (...log) => Logger({ log, type: 'default' })
-Logger.info = (...log) => Logger({ log, type: 'infor' })
-Logger.warn = (...log) => Logger({ log, type: 'warn' })
-Logger.error = (...log) => Logger({ log, type: 'error' })
-Logger.debug = (...log) => Logger({ log, type: 'debug' })
+Logger.log = (...log) =>
+  Logger({ log: log.length > 1 ? log : log[0], type: 'default' })
+Logger.info = (...log) =>
+  Logger({ log: log.length > 1 ? log : log[0], type: 'infor' })
+Logger.warn = (...log) =>
+  Logger({ log: log.length > 1 ? log : log[0], type: 'warn' })
+Logger.error = (...log) =>
+  Logger({ log: log.length > 1 ? log : log[0], type: 'error' })
+Logger.debug = (...log) =>
+  Logger({ log: log.length > 1 ? log : log[0], type: 'debug' })
 Logger.clear = () => Logger({ clear: true })
 
 Logger.collapse = () => _logger.collapse()

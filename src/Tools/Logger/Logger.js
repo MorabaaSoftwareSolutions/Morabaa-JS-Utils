@@ -26,7 +26,8 @@ let _logger = {
   silent: false,
   popup: true,
   withoutAnimation: false,
-  containerClassName: 'logger-container hide-child'
+  containerClassName: 'logger-container hide-child',
+  className: ''
 }
 
 const animationDuration = 250
@@ -87,13 +88,15 @@ Logger.setProps = ({
   popup = true,
   parentId = 'root',
   withoutAnimation,
-  containerClassName
+  containerClassName,
+  className = ''
 }) => {
   _logger.silent = silent
   _logger.popup = popup
   _logger.parentId = parentId
   _logger.withoutAnimation = withoutAnimation
   _logger.containerClassName = containerClassName
+  _logger.className = className
   if (container) {
     container.style.position = popup ? 'fixed' : 'absolute'
     containerClassName &&

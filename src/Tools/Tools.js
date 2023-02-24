@@ -34,10 +34,15 @@ export function Video(props, children) {
   return CreateTag('video', props, children)
 }
 
-export const ReactToNode = ({ reactComponent, props = {} }) =>
-  create(reactComponent(props))
+export const ReactToNode = (ReactToNode = ({ reactComponent, props = {} }) => {
+  const fn = reactComponent.type ?? reactComponent
+  if (typeof fn === 'function') return create(fn(props))
+  else throw new Error('reactComponent must be a function')
+})
 
 const create = (reactComponent) => {
+  if (typeof reactComponent === 'string')
+    return document.createTextNode(reactComponent)
   let element
   if (typeof reactComponent.type === 'function') {
     element = create(reactComponent.type(reactComponent.props))
@@ -61,6 +66,5 @@ const create = (reactComponent) => {
   } else element.append(reactComponent.props.children ?? '')
   return element
 }
-
 export const isMobile =
   navigator.userAgent.toLowerCase().match(/mobile/i) != null

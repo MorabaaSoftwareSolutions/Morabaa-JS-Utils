@@ -34,7 +34,7 @@ export function Video(props, children) {
   return CreateTag('video', props, children)
 }
 
-export const ReactToNode = ({ reactComponent, props }) =>
+export const ReactToNode = ({ reactComponent, props = {} }) =>
   create(reactComponent(props))
 
 const create = (reactComponent) => {
@@ -54,9 +54,8 @@ const create = (reactComponent) => {
           element.append(create(nestedChild))
         )
       : element.append(create(reactComponent.props.children))
-  } else element.append(reactComponent.props.children)
+  } else element.append(reactComponent.props.children ?? '')
   return element
 }
-
 export const isMobile =
   navigator.userAgent.toLowerCase().match(/mobile/i) != null

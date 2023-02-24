@@ -67,11 +67,11 @@ const Logger = async ({
 
 export default Logger
 
-Logger.log = (log) => Logger({ log, type: 'default' })
-Logger.info = (log) => Logger({ log, type: 'infor' })
-Logger.warn = (log) => Logger({ log, type: 'warn' })
-Logger.error = (log) => Logger({ log, type: 'error' })
-Logger.debug = (log) => Logger({ log, type: 'debug' })
+Logger.log = (...log) => Logger({ log, type: 'default' })
+Logger.info = (...log) => Logger({ log, type: 'infor' })
+Logger.warn = (...log) => Logger({ log, type: 'warn' })
+Logger.error = (...log) => Logger({ log, type: 'error' })
+Logger.debug = (...log) => Logger({ log, type: 'debug' })
 Logger.clear = () => Logger({ clear: true })
 
 Logger.collapse = () => _logger.collapse()

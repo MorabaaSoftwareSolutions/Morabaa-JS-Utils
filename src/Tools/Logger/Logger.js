@@ -71,13 +71,16 @@ export default Logger
 Logger.log = (...log) =>
   Logger({ log: log.length > 1 ? log : log[0], type: 'default' })
 Logger.info = (...log) =>
-  Logger({ log: log.length > 1 ? log : log[0], type: 'infor' })
+  Logger({ log: log.length > 1 ? log : log[0], type: 'info' })
 Logger.warn = (...log) =>
   Logger({ log: log.length > 1 ? log : log[0], type: 'warn' })
 Logger.error = (...log) =>
   Logger({ log: log.length > 1 ? log : log[0], type: 'error' })
 Logger.debug = (...log) =>
   Logger({ log: log.length > 1 ? log : log[0], type: 'debug' })
+Logger.success = (...log) =>
+  Logger({ log: log.length > 1 ? log : log[0], type: 'success' })
+
 Logger.clear = () => Logger({ clear: true })
 
 Logger.collapse = () => _logger.collapse()

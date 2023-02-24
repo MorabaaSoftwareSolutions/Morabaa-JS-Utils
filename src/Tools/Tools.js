@@ -38,7 +38,11 @@ export const ReactToNode = ({ reactComponent, props = {} }) =>
   create(reactComponent(props))
 
 const create = (reactComponent) => {
-  const element = document.createElement(reactComponent.type)
+  let element
+  if (typeof reactComponent.type === 'function') {
+    element = create(reactComponent.type(reactComponent.props))
+  } else element = document.createElement(reactComponent.type)
+
   Object.entries(reactComponent.props).map(([key, value]) => {
     if (key === 'children') return
     else if (key === 'style')
@@ -57,5 +61,6 @@ const create = (reactComponent) => {
   } else element.append(reactComponent.props.children ?? '')
   return element
 }
+
 export const isMobile =
   navigator.userAgent.toLowerCase().match(/mobile/i) != null

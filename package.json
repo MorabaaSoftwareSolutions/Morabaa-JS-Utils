@@ -1,6 +1,6 @@
 {
-  "name": "js-node-tools",
-  "version": "0.0.47",
+  "name": "morabaa-tools",
+  "version": "0.0.50",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.es.js",

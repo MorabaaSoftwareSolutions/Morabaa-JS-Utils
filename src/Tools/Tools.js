@@ -40,8 +40,10 @@ export const ReactToNode = ({ reactComponent, props = {} }) => {
 }
 
 const create = (reactComponent) => {
+  if (!reactComponent) return document.createTextNode('')
   if (typeof reactComponent === 'string')
     return document.createTextNode(reactComponent)
+
   let element
   if (typeof reactComponent.type === 'function') {
     element = create(reactComponent.type(reactComponent.props))

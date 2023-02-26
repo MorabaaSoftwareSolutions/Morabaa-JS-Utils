@@ -1,0 +1,13 @@
+.squiggle {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 650;
+    animation: draw 1.6s linear infinite;
+    filter: drop-shadow( 0px 0px 15px #e7353c);
+  }
+  
+  @keyframes draw {
+    0% {stroke-dashoffset: 1300;}
+    50% {stroke-dashoffset: 650;}
+    100% {stroke-dashoffset: 0;}
+  }
+  

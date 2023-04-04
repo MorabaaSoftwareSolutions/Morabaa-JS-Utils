@@ -1,6 +1,5 @@
+import { Utils } from 'morabaa-tools'
 import React from 'react'
-import './spliter.css'
-import { Utils } from '../../utils'
 
 const Spliter = ({
   vertical,

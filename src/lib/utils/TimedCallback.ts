@@ -1,14 +1,14 @@
 interface CallsProps {
   timeout: number;
   callback: () => void;
-  onRepated: () => void;
+  onRepated?: () => void;
   timeoutId: any;
 }
 export default class TimedCallback {
   static Calls: { [id: string]: CallsProps } = {};
   static alreadyPending = (id: string) => !!this.Calls[id]?.timeoutId;
   static restart = ({ id, timeout }: { id: string; timeout: number }) => {
-    this.Calls[id]?.onRepated();
+    this.Calls[id]?.onRepated?.();
     clearTimeout(this.Calls[id].timeoutId);
     this.Calls[id].timeoutId = setTimedCallBack({ id, timeout });
   };
@@ -24,12 +24,11 @@ export default class TimedCallback {
       callback,
       timeout,
       onRepated,
-      timeoutId: setTimedCallBack({ id, timeout, callback }),
+      timeoutId: setTimedCallBack({ id, timeout }),
     };
   };
 }
-const setTimedCallBack = ({ id, timeout, callback }: any) => {
-  if (callback) TimedCallback.Calls[id].callback = callback;
+const setTimedCallBack = ({ id, timeout }: any) => {
   return setTimeout(() => {
     TimedCallback.Calls[id].callback();
     delete TimedCallback.Calls[id];

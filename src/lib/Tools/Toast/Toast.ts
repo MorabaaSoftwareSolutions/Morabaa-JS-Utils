@@ -1,5 +1,5 @@
 import { TimedCallback } from "../../utils";
-import { Div, P, Span } from "../Tools";
+import { Div, P, ReactToNode, Span } from "../Tools";
 
 const colorByType: any = {
   default: { bg: "#d5d8db", text: "#2f3b4b", border: "#2f3b4b" },
@@ -19,16 +19,37 @@ const init = () => {
 };
 init();
 
-const Toast = ({ title = "", content = "", timeout = 4000, type = "default", haveBorder: displayBorder = true }) => {
+interface FuncProps {
+  title?: string;
+  content?: string;
+  timeout?: number;
+  Component?: any;
+  componentProps?: any;
+  haveBorder?: any;
+}
+
+interface ToastProps {
+  type: "default" | "info" | "success" | "warn" | "error" | "primary" | "secondary";
+}
+
+const Toast = ({
+  title = "",
+  content = "",
+  timeout = 4000,
+  type = "default",
+  haveBorder = true,
+  Component = null,
+  componentProps = {},
+}: ToastProps & FuncProps) => {
   let id = title + content;
   const { bg, text, border } = colorByType[type];
-  let style = (displayBorder ? `background-color:#fff; border-left: solid 8px ${border};` : `background-color:${bg};`) + `color:${text};`;
+  let style = (haveBorder ? `background-color:#fff; border-left: solid 8px ${border};` : `background-color:${bg};`) + `color:${text};`;
 
   if (timeout < 1 || TimedCallback.alreadyPending(id) === false) createNewToast();
   else TimedCallback.restart({ id, timeout });
 
   function createNewToast() {
-    const infoContainer = P({ style, className: "toast-container info-fade-in" }, [
+    const infoContainer = Div({ style, className: "toast-container info-fade-in" }, [
       P({ className: "row-center" }, [
         Span({
           className: "x",
@@ -41,6 +62,12 @@ const Toast = ({ title = "", content = "", timeout = 4000, type = "default", hav
         ? Span({
             className: "toast-content",
             innerText: content,
+          })
+        : "",
+      Component
+        ? ReactToNode({
+            reactComponent: Component,
+            props: componentProps,
           })
         : "",
     ]);
@@ -71,12 +98,12 @@ const Toast = ({ title = "", content = "", timeout = 4000, type = "default", hav
   }
 };
 
-Toast.default = ({ title, content, timeout }: any) => Toast({ title, content, timeout, type: "default" });
-Toast.info = ({ title, content, timeout }: any) => Toast({ title, content, timeout, type: "info" });
-Toast.success = ({ title, content, timeout }: any) => Toast({ title, content, timeout, type: "success" });
-Toast.warn = ({ title, content, timeout }: any) => Toast({ title, content, timeout, type: "warn" });
-Toast.error = ({ title, content, timeout }: any) => Toast({ title, content, timeout, type: "error" });
-Toast.primary = ({ title, content, timeout }: any) => Toast({ title, content, timeout, type: "primary" });
-Toast.secondary = ({ title, content, timeout }: any) => Toast({ title, content, timeout, type: "secondary" });
+Toast.default = (args: FuncProps) => Toast({ ...args, type: "default" });
+Toast.info = (args: FuncProps) => Toast({ ...args, type: "info" });
+Toast.success = (args: FuncProps) => Toast({ ...args, type: "success" });
+Toast.warn = (args: FuncProps) => Toast({ ...args, type: "warn" });
+Toast.error = (args: FuncProps) => Toast({ ...args, type: "error" });
+Toast.primary = (args: FuncProps) => Toast({ ...args, type: "primary" });
+Toast.secondary = (args: FuncProps) => Toast({ ...args, type: "secondary" });
 
 export default Toast;

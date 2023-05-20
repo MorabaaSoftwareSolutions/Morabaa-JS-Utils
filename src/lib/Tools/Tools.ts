@@ -36,7 +36,11 @@ export function Video(props: any, children: any) {
 
 export const isMobile = navigator.userAgent.toLowerCase().match(/mobile/i) != null;
 
-export const ReactToNode = ({ reactComponent, props = {} }: any) => {
+interface ReactToNodeProps {
+  reactComponent?: any;
+  props?: any;
+}
+export const ReactToNode = ({ reactComponent, props = {} }: ReactToNodeProps) => {
   const fn = reactComponent?.type ?? reactComponent;
   if (typeof fn === "function") return create(fn(props));
 };

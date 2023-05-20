@@ -1,6 +1,6 @@
 {
   "name": "morabaa-tools",
-  "version": "0.0.57",
+  "version": "0.0.58",
   "description": "morabaa-tools",
   "main": "dist/index.js",
   "source": "src/index.tsx",
